@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Send Message to {{ instructor.name }} 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
             margin: 0;
@@ -21,37 +22,6 @@
             margin: 0 auto;
         }
         
-        .header {
-            background: white;
-            border-radius: 20px;
-            padding: 1.5rem 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header h1 {
-            color: #ff4d6d;
-            font-size: 1.5rem;
-        }
-        
-        .back-btn {
-            background: #9f7aea;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
         .instructor-card {
             background: {{ instructor.background_color or '#ff4d6d' }};
             color: white;
@@ -65,10 +35,6 @@
         .instructor-card h2 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
-        }
-        
-        .instructor-card p {
-            opacity: 0.9;
         }
         
         .message-form {
@@ -171,15 +137,86 @@
             color: {{ instructor.background_color or '#ff4d6d' }};
         }
         
+        .character-count.warning span {
+            color: #ff8c00;
+        }
+        
+        .character-count.limit span {
+            color: #ff4444;
+        }
+        
+        /* Mobile responsive styles */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+            body {
+                padding: 12px;
+            }
+            
+            .instructor-card {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .instructor-card h2 {
+                font-size: 1.8rem;
+            }
+            
+            .message-form {
+                padding: 1.5rem;
+            }
+            
+            .message-form h3 {
+                font-size: 1.2rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            textarea {
+                padding: 0.8rem;
+                min-height: 120px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .btn-send {
+                padding: 0.9rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .character-count {
+                font-size: 0.8rem;
+            }
+            
+            .flash-message {
+                padding: 0.8rem;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Small phones */
+        @media (max-width: 480px) {
+            .instructor-card {
+                padding: 1.2rem;
             }
             
             .instructor-card h2 {
                 font-size: 1.5rem;
+            }
+            
+            .message-form {
+                padding: 1.2rem;
+            }
+            
+            textarea {
+                min-height: 100px;
+            }
+        }
+        
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-send:hover {
+                transform: none;
+            }
+            
+            .btn-send:active {
+                transform: scale(0.98);
             }
         }
     </style>
@@ -195,14 +232,9 @@
             {% endif %}
         {% endwith %}
         
-        <div class="header">
-            <h1>💌 Send Valentine Message</h1>
-            <a href="{{ url_for('student.dashboard') }}" class="back-btn">← Back</a>
-        </div>
-        
         <div class="instructor-card" style="background: {{ instructor.background_color or '#ff4d6d' }};">
             <h2>{{ instructor.name }}</h2>
-            <p>{{ instructor.unique_code }}</p>
+            <!-- Instructor code removed -->
         </div>
         
         <!-- Message Form -->
@@ -214,18 +246,18 @@
                     <textarea 
                         id="message" 
                         name="message" 
-                        placeholder="Write a sweet message for {{ instructor.name }}..." 
+                        placeholder="Write a sweet message for {{ instructor.name }}... (max 10,000 characters)" 
                         required
-                        maxlength="500"
+                        maxlength="10000"
                         oninput="updateCharCount(this)"
                     ></textarea>
-                    <div class="character-count">
-                        <span id="charCount">0</span>/500 characters
+                    <div class="character-count" id="charCountContainer">
+                        <span id="charCount">0</span>/10,000 characters
                     </div>
                 </div>
                 <button type="submit" class="btn-send" id="sendBtn">
                     <span>💌</span>
-                    Send Message to {{ instructor.name }}
+                    Send Message
                 </button>
             </form>
         </div>
@@ -234,11 +266,43 @@
     <script>
         function updateCharCount(textarea) {
             const count = textarea.value.length;
-            document.getElementById('charCount').textContent = count;
+            const charCountSpan = document.getElementById('charCount');
+            const container = document.getElementById('charCountContainer');
+            
+            // Update count
+            charCountSpan.textContent = count.toLocaleString(); // Adds commas for thousands
+            
+            // Visual feedback for approaching limit
+            if (count > 9500) {
+                container.classList.add('warning');
+                container.classList.remove('limit');
+            } else if (count > 9900) {
+                container.classList.remove('warning');
+                container.classList.add('limit');
+            } else {
+                container.classList.remove('warning', 'limit');
+            }
+            
+            // Optional: Show remaining characters
+            const remaining = 10000 - count;
+            if (remaining <= 100) {
+                // Can add additional warning behavior here
+                console.log(`Only ${remaining} characters remaining`);
+            }
         }
         
         // Form submission handling
         document.getElementById('messageForm')?.addEventListener('submit', function(e) {
+            const message = document.getElementById('message');
+            const count = message.value.length;
+            
+            // Double-check on submit (though maxlength prevents going over)
+            if (count > 10000) {
+                e.preventDefault();
+                alert('Message exceeds the maximum length of 10,000 characters. Please shorten your message.');
+                return;
+            }
+            
             const sendBtn = document.getElementById('sendBtn');
             sendBtn.disabled = true;
             sendBtn.innerHTML = '<span>⏳</span> Sending...';
@@ -255,6 +319,14 @@
                 }, 500);
             });
         }, 5000);
+        
+        // Initialize character count on page load
+        window.addEventListener('load', function() {
+            const textarea = document.getElementById('message');
+            if (textarea) {
+                updateCharCount(textarea);
+            }
+        });
     </script>
 </body>
 </html>

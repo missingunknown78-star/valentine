@@ -14,91 +14,149 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 16px;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Background Floating Particles - Behind everything */
+        .particle-bg {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+            animation: wind-float-bg linear infinite;
+            filter: drop-shadow(0 0 3px rgba(255,255,255,0.2));
+        }
+        
+        @keyframes wind-float-bg {
+            0% {
+                transform: translateX(-10vw) translateY(100vh) rotate(0deg);
+                opacity: 0.4;
+            }
+            25% {
+                transform: translateX(20vw) translateY(70vh) rotate(90deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateX(40vw) translateY(40vh) rotate(180deg);
+                opacity: 0.2;
+            }
+            75% {
+                transform: translateX(60vw) translateY(20vh) rotate(270deg);
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateX(80vw) translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Foreground Floating Particles - In front of containers */
+        .particle-fg {
+            position: fixed;
+            pointer-events: none;
+            z-index: 20;
+            opacity: 0.7;
+            animation: wind-float-fg linear infinite;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+        
+        @keyframes wind-float-fg {
+            0% {
+                transform: translateX(-5vw) translateY(100vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translateX(30vw) translateY(70vh) rotate(120deg);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateX(50vw) translateY(40vh) rotate(240deg);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translateX(70vw) translateY(20vh) rotate(300deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateX(90vw) translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .heart-white {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
+        
+        .heart-pink {
+            color: #ffb6c1;
+            text-shadow: 0 0 8px rgba(255, 182, 193, 0.8);
+        }
+        
+        .heart-yellow {
+            color: #fffacd;
+            text-shadow: 0 0 8px rgba(255, 250, 205, 0.8);
+        }
+        
+        .flower {
+            color: #ffe4e1;
+            text-shadow: 0 0 8px rgba(255, 228, 225, 0.8);
+        }
+        
+        .flower-pink {
+            color: #ffdab9;
+            text-shadow: 0 0 8px rgba(255, 218, 185, 0.8);
         }
         
         .container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
+            position: relative;
+            z-index: 10;
         }
         
-        /* Header */
-        .header {
-            background: white;
-            border-radius: 25px;
-            padding: 1rem 1.2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .back-btn {
-            background: #f7fafc;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: #4a5568;
-        }
-        
-        .back-btn:hover {
-            background: #edf2f7;
-            transform: scale(1.05);
-        }
-        
-        .back-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .header h1 {
-            color: #ff4d6d;
-            font-size: 1.2rem;
-            font-weight: 600;
-            flex: 1;
-        }
-        
-        /* Message Card */
+        /* Glass Message Card */
         .message-card {
-            background: white;
-            border-radius: 30px;
-            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 1.5rem 1.2rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Student Header */
+        /* Student Header - Glass effect */
         .student-header {
             text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px dashed #ffe6f0;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+            position: relative;
+            z-index: 12;
         }
         
         .avatar {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, {{ instructor.background_color or '#ff4d6d' }} 0%, #ff8aa1 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            margin: 0 auto 0.8rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 13;
         }
         
         .avatar span {
-            font-size: 2.5rem;
+            font-size: 2rem;
             animation: heartbeat 1.5s ease-in-out infinite;
         }
         
@@ -108,63 +166,69 @@
         }
         
         .student-name {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 0.5rem;
+            color: white;
+            margin-bottom: 0.4rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .student-badge {
             display: flex;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 0.6rem;
             flex-wrap: wrap;
         }
         
         .badge {
-            background: #f7fafc;
-            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            padding: 0.3rem 0.8rem;
             border-radius: 50px;
-            font-size: 0.85rem;
-            color: #4a5568;
+            font-size: 0.75rem;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .badge i {
-            margin-right: 0.3rem;
-        }
-        
-        /* Message Content */
+        /* Message Content - Glass on glass */
         .message-content {
-            background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
-            padding: 2rem;
-            border-radius: 20px;
-            margin: 1.5rem 0;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 1.2rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 12;
         }
         
         .quote-icon {
-            font-size: 2rem;
-            color: {{ instructor.background_color or '#ff4d6d' }};
-            opacity: 0.3;
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.3rem;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
         
         .message-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #2d3748;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: white;
             font-style: italic;
             text-align: center;
             word-break: break-word;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
         
         .message-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #edf2f7;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         .timestamp {
@@ -173,29 +237,33 @@
         }
         
         .time {
-            font-size: 0.9rem;
-            color: #ff4d6d;
+            font-size: 0.8rem;
+            color: white;
             font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
         
         .date {
-            font-size: 0.75rem;
-            color: #a0aec0;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
         
         .heart {
-            font-size: 2rem;
+            font-size: 1.5rem;
             animation: heartbeat 1.5s ease-in-out infinite;
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
         
-        /* Reply Button */
+        /* Reply Button - Solid as requested */
         .reply-btn {
             background: linear-gradient(135deg, {{ instructor.background_color or '#ff4d6d' }} 0%, #ff8aa1 100%);
             color: white;
             border: none;
-            padding: 1.2rem;
+            padding: 1rem;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
@@ -204,70 +272,51 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            margin-top: 0.8rem;
+            position: relative;
+            z-index: 12;
         }
         
         .reply-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.4);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
         }
         
         .reply-btn:active {
             transform: translateY(0);
         }
         
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .action-btn {
-            flex: 1;
-            background: white;
-            border: 2px solid {{ instructor.background_color or '#ff4d6d' }};
-            color: {{ instructor.background_color or '#ff4d6d' }};
-            padding: 0.8rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-        }
-        
-        .action-btn:hover {
-            background: {{ instructor.background_color or '#ff4d6d' }};
-            color: white;
-        }
-        
-        /* Info Card */
+        /* Info Card - Glass */
         .info-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 1rem;
-            margin-top: 1.5rem;
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 0.8rem;
+            margin-top: 1.2rem;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 12;
         }
         
         .info-card p {
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.9;
         }
         
         /* Confetti */
         .confetti {
             position: fixed;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: #ff4d6d;
             position: absolute;
             pointer-events: none;
             animation: confettiFall 3s linear infinite;
+            z-index: 100;
         }
         
         @keyframes confettiFall {
@@ -275,30 +324,110 @@
             100% { transform: translateY(100vh) rotate(360deg); }
         }
         
+        /* Reply Modal */
+        #replyModal {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 24px 24px 0 0;
+            padding: 1.5rem;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease;
+            z-index: 1000;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        #replyModal h3 {
+            color: #ff4d6d;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        #replyModal textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ffe6f0;
+            border-radius: 10px;
+            min-height: 80px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        #replyModal button:first-of-type {
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff8aa1 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 50px;
+            width: 100%;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        #replyModal button:last-of-type {
+            background: none;
+            border: none;
+            color: #999;
+            width: 100%;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
         @media (max-width: 380px) {
             .student-name {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
             
             .message-text {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
             
-            .action-buttons {
-                flex-direction: column;
+            .avatar {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .avatar span {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Desktop-like adjustments */
+        @media (min-width: 768px) {
+            body {
+                padding: 30px;
+            }
+            
+            .container {
+                max-width: 650px;
+            }
+            
+            .message-card {
+                padding: 2rem 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <a href="{{ url_for('instructor.messages', code=instructor.unique_code) }}" class="back-btn">←</a>
-            <h1>Valentine Message 💌</h1>
-        </div>
-        
-        <!-- Message Card -->
+    <!-- Background Floating Particles (Behind containers) -->
+    <div id="particles-bg"></div>
+    
+    <!-- Foreground Floating Particles (In front of containers) -->
+    <div id="particles-fg"></div>
+    
+    <div class="container">        
+        <!-- Glass Message Card -->
         <div class="message-card">
             <div class="student-header">
                 <div class="avatar">
@@ -311,6 +440,7 @@
                 </div>
             </div>
             
+            <!-- Glass Message Container -->
             <div class="message-content">
                 <div class="quote-icon">"</div>
                 <div class="message-text">{{ message.message }}</div>
@@ -323,67 +453,75 @@
                 </div>
             </div>
             
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button class="action-btn" onclick="shareMessage()">
-                    📤 Share
-                </button>
-                <button class="action-btn" onclick="saveMessage()">
-                    💾 Save
-                </button>
-            </div>
-            
-            <!-- Reply Button (optional) -->
+            <!-- Solid Reply Button (unchanged) -->
             <button class="reply-btn" onclick="showReply()">
                 <span>💌</span>
                 Send Reply
             </button>
         </div>
         
-        <!-- Info Card -->
+        <!-- Glass Info Card -->
         <div class="info-card">
             <p>✨ This message was sent with love from one of your students</p>
         </div>
     </div>
     
     <!-- Reply Modal (hidden by default) -->
-    <div id="replyModal" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; border-radius: 30px 30px 0 0; padding: 2rem; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); animation: slideUp 0.3s ease;">
-        <h3 style="color: #ff4d6d; margin-bottom: 1rem;">Reply to {{ message.student.name }}</h3>
-        <textarea style="width: 100%; padding: 1rem; border: 2px solid #ffe6f0; border-radius: 10px; min-height: 100px; margin-bottom: 1rem;" placeholder="Write your reply..."></textarea>
-        <button style="background: linear-gradient(135deg, #ff4d6d 0%, #ff8aa1 100%); color: white; border: none; padding: 1rem; border-radius: 50px; width: 100%; font-weight: 600;" onclick="closeReply()">Send Reply</button>
-        <button style="background: none; border: none; color: #999; width: 100%; margin-top: 0.5rem;" onclick="closeReply()">Cancel</button>
+    <div id="replyModal" style="display: none;">
+        <h3>Reply to {{ message.student.name }}</h3>
+        <textarea placeholder="Write your reply..."></textarea>
+        <button onclick="closeReply()">Send Reply</button>
+        <button onclick="closeReply()">Cancel</button>
     </div>
     
-    <style>
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-    </style>
-    
     <script>
-        function shareMessage() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Valentine Message',
-                    text: '{{ message.message }}',
-                    url: window.location.href
-                }).catch(console.error);
-            } else {
-                alert('Message copied to clipboard!');
-                navigator.clipboard?.writeText('{{ message.message }}');
+        // Floating Particles Generator
+        function createParticles(containerId, isForeground = false) {
+            const particlesContainer = document.getElementById(containerId);
+            
+            // Different colors and symbols
+            const symbols = [
+                { char: '❤️', class: 'heart-white' },
+                { char: '💖', class: 'heart-pink' },
+                { char: '💕', class: 'heart-yellow' },
+                { char: '💗', class: 'heart-white' },
+                { char: '🌸', class: 'flower' },
+                { char: '🌺', class: 'flower-pink' },
+                { char: '🌷', class: 'flower' },
+                { char: '🌹', class: 'flower-pink' },
+                { char: '🌼', class: 'heart-yellow' },
+                { char: '🌻', class: 'heart-yellow' }
+            ];
+            
+            const particleCount = isForeground ? 15 : 20; // Fewer foreground particles for subtlety
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                particle.className = isForeground ? 'particle-fg ' + symbol.class : 'particle-bg ' + symbol.class;
+                particle.innerHTML = symbol.char;
+                
+                // Random properties for natural wind flow
+                const left = Math.random() * 100;
+                const size = isForeground ? 14 + Math.random() * 25 : 10 + Math.random() * 20;
+                const duration = isForeground ? 15 + Math.random() * 20 : 20 + Math.random() * 25;
+                const delay = Math.random() * -30;
+                const rotation = Math.random() * 360;
+                
+                particle.style.left = left + '%';
+                particle.style.fontSize = size + 'px';
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = delay + 's';
+                particle.style.opacity = isForeground ? 0.5 + Math.random() * 0.3 : 0.2 + Math.random() * 0.3;
+                particle.style.transform = `rotate(${rotation}deg)`;
+                
+                // Random starting Y position for variety
+                const startY = Math.random() * 100;
+                particle.style.top = startY + '%';
+                
+                particlesContainer.appendChild(particle);
             }
-        }
-        
-        function saveMessage() {
-            const message = '{{ message.message }}';
-            const blob = new Blob([message], {type: 'text/plain'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'valentine_message_{{ message.student.name }}.txt';
-            a.click();
-            URL.revokeObjectURL(url);
         }
         
         function showReply() {
@@ -396,7 +534,7 @@
         
         // Add confetti effect
         function createConfetti() {
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
@@ -410,8 +548,30 @@
             }
         }
         
-        // Trigger confetti on load
-        window.addEventListener('load', createConfetti);
+        // Initialize on load
+        window.addEventListener('load', function() {
+            // Create background particles
+            createParticles('particles-bg', false);
+            
+            // Create foreground particles (in front of containers)
+            createParticles('particles-fg', true);
+            
+            createConfetti();
+            
+            // Create new particles periodically
+            setInterval(() => {
+                const particlesBg = document.getElementById('particles-bg');
+                const particlesFg = document.getElementById('particles-fg');
+                
+                if (particlesBg.children.length < 20) {
+                    createParticles('particles-bg', false);
+                }
+                
+                if (particlesFg.children.length < 15) {
+                    createParticles('particles-fg', true);
+                }
+            }, 8000);
+        });
     </script>
 </body>
 </html>

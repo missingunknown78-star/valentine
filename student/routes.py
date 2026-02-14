@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
-from models import Student, Instructor, StudentMessage
+from models import Student, Instructor, StudentMessage, OfficialStudent
 from extensions import db
 from functools import wraps
 from flask import abort
@@ -34,13 +34,28 @@ def register():
             flash('Passwords do not match!', 'error')
             return render_template('register.html')
         
-        # Check if student already exists
+        # Check if student exists in OfficialStudent database
+        official_student = OfficialStudent.query.filter_by(student_id=student_id).first()
+        
+        if not official_student:
+            flash('Student ID not found in official records! Please contact the administrator.', 'error')
+            return render_template('register.html')
+        
+        # Check if the name matches the official record (case-insensitive)
+        official_full_name = f"{official_student.first_name} {official_student.last_name}".lower()
+        input_name = name.lower()
+        
+        if input_name != official_full_name:
+            flash('Name does not match our official records! Please use your registered name.', 'error')
+            return render_template('register.html')
+        
+        # Check if student already registered in the system
         existing_student = Student.query.filter(
             (Student.student_id == student_id) | (Student.email == email)
         ).first()
         
         if existing_student:
-            flash('Student ID or Email already registered!', 'error')
+            flash('Student ID or Email already registered! Please login.', 'error')
             return render_template('register.html')
         
         # Create new student

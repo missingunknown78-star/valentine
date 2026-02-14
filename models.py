@@ -50,3 +50,18 @@ class StudentMessage(db.Model):
     message = db.Column(db.Text, nullable=False)
     is_approved = db.Column(db.Boolean, default=False)  # Admin can approve messages
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+    # Add this to your models.py file
+
+class OfficialStudent(db.Model):
+    __tablename__ = 'official_students'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.String(50), unique=True, nullable=False)
+    first_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f'<OfficialStudent {self.student_id}: {self.first_name} {self.last_name}>'

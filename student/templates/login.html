@@ -2,71 +2,93 @@
 <html>
 <head>
     <title>Student Login 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
+        }
+        
+        html {
+            height: -webkit-fill-available;
         }
         
         .login-container {
-            max-width: 400px;
             width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
         }
         
         .login-card {
             background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 24px;
+            padding: 32px 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
         
         h1 {
             color: #ff4d6d;
             text-align: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
+            font-size: 28px;
+            letter-spacing: -0.5px;
         }
         
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 2rem;
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.4;
+            padding: 0 8px;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
         }
         
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 6px;
             color: #333;
             font-weight: 600;
+            font-size: 14px;
         }
         
         input {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 16px 14px;
             border: 2px solid #ffe6f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            background: white;
+            -webkit-appearance: none;
+            appearance: none;
         }
         
         input:focus {
             outline: none;
             border-color: #ff4d6d;
-            box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.15);
+        }
+        
+        input::placeholder {
+            color: #aaa;
+            font-size: 15px;
         }
         
         .btn-login {
@@ -74,38 +96,48 @@
             background: linear-gradient(135deg, #ff4d6d 0%, #ff8aa1 100%);
             color: white;
             border: none;
-            padding: 1rem;
+            padding: 16px 20px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: 0 8px 16px rgba(255, 77, 109, 0.25);
         }
         
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 77, 109, 0.3);
+        .btn-login:active {
+            transform: scale(0.98);
+            background: linear-gradient(135deg, #ff3d5d 0%, #ff7a95 100%);
+            box-shadow: 0 4px 8px rgba(255, 77, 109, 0.3);
         }
         
         .register-link {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 24px;
+            font-size: 15px;
         }
         
         .register-link a {
             color: #ff4d6d;
             text-decoration: none;
             font-weight: 600;
+            padding: 4px 8px;
+            display: inline-block;
         }
         
-        .register-link a:hover {
-            text-decoration: underline;
+        .register-link a:active {
+            opacity: 0.7;
         }
         
         .flash-message {
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            word-break: break-word;
         }
         
         .flash-success {
@@ -121,6 +153,49 @@
         .flash-info {
             background: #bee3f8;
             color: #2c5282;
+        }
+        
+        /* Mobile-specific adjustments */
+        @media (max-width: 380px) {
+            .login-card {
+                padding: 24px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 14px;
+            }
+            
+            input {
+                padding: 14px 12px;
+            }
+        }
+        
+        /* Remove tap highlight on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-login:hover {
+                transform: none;
+            }
+        }
+        
+        /* Better touch targets */
+        button, 
+        .register-link a {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-login {
+            min-height: 56px;
+        }
+        
+        input {
+            min-height: 56px;
         }
     </style>
 </head>
@@ -141,7 +216,7 @@
             <form method="POST">
                 <div class="form-group">
                     <label>Student ID Number</label>
-                    <input type="text" name="student_id" placeholder="e.g., 2024-0001" required>
+                    <input type="text" name="student_id" placeholder="e.g., 2024-0001" inputmode="numeric" required>
                 </div>
                 
                 <div class="form-group">

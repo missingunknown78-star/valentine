@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Instructor Created Successfully! 💖</title>
+    <title>Instructor Created! 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff8aa1 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
+            margin: 0;
         }
         
         .container {
-            max-width: 500px;
+            max-width: 480px;
             width: 100%;
+            margin: 0 auto;
         }
         
         .success-card {
             background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 28px;
+            padding: 24px 20px;
+            box-shadow: 0 25px 50px -12px rgba(255, 77, 109, 0.5);
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .success-icon {
             font-size: 4rem;
-            margin-bottom: 1rem;
+            margin-bottom: 8px;
             animation: heartbeat 1.5s ease-in-out infinite;
+            display: block;
         }
         
         @keyframes heartbeat {
@@ -45,116 +51,342 @@
         
         h1 {
             color: #ff4d6d;
-            margin-bottom: 0.5rem;
+            margin-bottom: 4px;
             font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
         }
         
         .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
+            color: #718096;
+            margin-bottom: 24px;
+            font-size: 1rem;
         }
         
         .instructor-name {
             background: linear-gradient(135deg, #ff4d6d 0%, #ff8aa1 100%);
             color: white;
-            padding: 1rem;
-            border-radius: 50px;
-            font-size: 1.5rem;
+            padding: 16px 20px;
+            border-radius: 60px;
+            font-size: 1.4rem;
             font-weight: bold;
-            margin-bottom: 2rem;
+            margin-bottom: 24px;
+            word-break: break-word;
+            line-height: 1.3;
+            box-shadow: 0 10px 15px -3px rgba(255, 77, 109, 0.3);
         }
         
         .qr-section {
-            background: #f7fafc;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
+            background: #fff5f7;
+            padding: 20px 16px;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            border: 2px solid #ffe6f0;
         }
         
         .qr-section h3 {
             color: #ff4d6d;
-            margin-bottom: 1rem;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
         }
         
         .qr-image {
-            margin: 1rem auto;
+            margin: 16px auto;
             max-width: 200px;
+            width: 100%;
+            background: white;
+            padding: 12px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px -5px rgba(255, 77, 109, 0.2);
+            position: relative;
+            display: inline-block;
         }
         
         .qr-image img {
             width: 100%;
             height: auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: block;
+            border-radius: 12px;
+        }
+        
+        /* Instructor name overlay on QR code */
+        .qr-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #ff4d6d;
+            white-space: nowrap;
+            max-width: 80%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border: 2px solid #ff4d6d;
+            z-index: 2;
+            pointer-events: none;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: 0.3px;
+        }
+        
+        /* Small heart decoration */
+        .qr-overlay::before {
+            content: "💖";
+            margin-right: 4px;
+            font-size: 0.7rem;
+        }
+        
+        .qr-overlay::after {
+            content: "💖";
+            margin-left: 4px;
+            font-size: 0.7rem;
         }
         
         .unique-code {
             background: #2d3748;
             color: white;
-            padding: 0.75rem;
-            border-radius: 50px;
-            font-family: monospace;
+            padding: 14px 16px;
+            border-radius: 60px;
+            font-family: 'Courier New', monospace;
             font-size: 1.2rem;
-            margin: 1rem 0;
+            margin: 16px 0;
+            letter-spacing: 2px;
+            word-break: break-all;
+            font-weight: 600;
+            border: 1px solid #4a5568;
         }
         
         .url-box {
-            background: #edf2f7;
-            padding: 0.75rem;
-            border-radius: 10px;
+            background: white;
+            padding: 16px;
+            border-radius: 16px;
             font-size: 0.9rem;
             word-break: break-all;
-            margin: 1rem 0;
-            color: #4a5568;
+            margin: 16px 0;
+            color: #2d3748;
+            border: 2px solid #ffe6f0;
+            font-family: monospace;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.4;
         }
         
+        .url-box:active {
+            background: #edf2f7;
+            transform: scale(0.98);
+        }
+        
+        /* Download Button */
         .btn-download {
             background: linear-gradient(135deg, #48bb78 0%, #68d391 100%);
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 18px 24px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin: 1rem 0;
-            border: none;
+            display: block;
+            width: 100%;
+            box-shadow: 0 15px 25px -8px rgba(72, 187, 120, 0.4);
+            margin: 8px 0;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            z-index: 10;
         }
         
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(72, 187, 120, 0.3);
+        .btn-download:active {
+            transform: scale(0.97);
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
         }
         
         .btn-dashboard {
             background: #ff4d6d;
             color: white;
             text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-top: 1rem;
+            padding: 18px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            display: block;
+            width: 100%;
+            box-shadow: 0 15px 25px -8px rgba(255, 77, 109, 0.4);
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            z-index: 10;
         }
         
-        .btn-dashboard:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 77, 109, 0.3);
+        .btn-dashboard:active {
+            transform: scale(0.97);
+            background: #ff3b5c;
         }
         
         .btn-icon {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            line-height: 1;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
         }
         
         hr {
             border: none;
-            border-top: 2px dashed #ffe6f0;
-            margin: 2rem 0;
+            border-top: 3px dashed #ffe6f0;
+            margin: 24px 0;
+        }
+        
+        /* Loading state */
+        .btn-download.loading {
+            opacity: 0.9;
+            pointer-events: none;
+        }
+        
+        .btn-download.loading .btn-icon {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Feedback toast */
+        .copy-feedback {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d3748;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+            white-space: nowrap;
+            max-width: 90%;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.1);
+            pointer-events: none;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 30px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        /* Small phones */
+        @media (max-width: 380px) {
+            .success-card {
+                padding: 20px 16px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .instructor-name {
+                font-size: 1.2rem;
+                padding: 14px;
+            }
+            
+            .qr-image {
+                max-width: 160px;
+            }
+            
+            .qr-overlay {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+            }
+            
+            .unique-code {
+                font-size: 1rem;
+                padding: 12px;
+            }
+            
+            .btn-download, .btn-dashboard {
+                padding: 16px 20px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Landscape */
+        @media (orientation: landscape) and (max-height: 600px) {
+            body {
+                padding: 12px;
+                align-items: flex-start;
+            }
+            
+            .success-card {
+                padding: 16px;
+            }
+            
+            .qr-image {
+                max-width: 120px;
+            }
+            
+            .instructor-name {
+                margin-bottom: 16px;
+                padding: 12px;
+            }
+            
+            hr {
+                margin: 16px 0;
+            }
+        }
+        
+        /* Safe area */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(16px, env(safe-area-inset-left));
+                padding-right: max(16px, env(safe-area-inset-right));
+                padding-top: max(16px, env(safe-area-inset-top));
+                padding-bottom: max(16px, env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* Animation */
+        .success-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -170,21 +402,29 @@
             </div>
             
             <div class="qr-section">
-                <h3>💖 Instructor QR Code</h3>
+                <h3>
+                    <span>💖</span>
+                    Instructor QR Code
+                </h3>
                 
-                <div class="qr-image" id="qrImage">
-                    <img src="data:image/png;base64,{{ instructor.qr_code }}" alt="QR Code" id="qrCodeImg">
+                <div class="qr-image">
+                    <img src="data:image/png;base64,{{ instructor.qr_code }}" alt="QR Code for {{ instructor.name }}" id="qrCodeImg" crossorigin="anonymous">
+                    <!-- Instructor name overlay in the middle of QR code -->
+                    <div class="qr-overlay" id="qrOverlay">
+                        {{ instructor.name }}
+                    </div>
                 </div>
                 
-                <div class="unique-code">
+                <div class="unique-code" id="uniqueCode">
                     {{ instructor.unique_code }}
                 </div>
                 
-                <div class="url-box">
+                <div class="url-box" id="urlBox">
                     {{ instructor_url }}
                 </div>
                 
-                <button class="btn-download" id="downloadBtn">
+                <!-- Simple, reliable download button -->
+                <button class="btn-download" id="downloadBtn" onclick="downloadQRCode()">
                     <span class="btn-icon">📥</span>
                     Download QR Code
                 </button>
@@ -192,7 +432,7 @@
             
             <hr>
             
-            <a href="{{ url_for('admin.dashboard') }}" class="btn-dashboard">
+            <a href="{{ url_for('admin.dashboard') }}" class="btn-dashboard" id="dashboardBtn">
                 <span class="btn-icon">📋</span>
                 Go to Dashboard
             </a>
@@ -200,16 +440,124 @@
     </div>
     
     <script>
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            // Get the QR code image
+        // Simple global function for download
+        function downloadQRCode() {
             const img = document.getElementById('qrCodeImg');
+            const instructorName = '{{ instructor.name }}'.replace(/[^a-zA-Z0-9]/g, '_');
+            const button = document.getElementById('downloadBtn');
             
-            // Create a link to download
-            const link = document.createElement('a');
-            link.download = '{{ instructor.name }}_QRCode.png';
-            link.href = img.src;
-            link.click();
+            if (!img || !img.src) {
+                alert('QR Code not found!');
+                return;
+            }
+            
+            // Store original button text
+            const originalText = button.innerHTML;
+            
+            // Show loading
+            button.innerHTML = '<span class="btn-icon">⏳</span> Downloading...';
+            button.disabled = true;
+            button.style.opacity = '0.8';
+            
+            try {
+                // Create download link
+                const link = document.createElement('a');
+                link.download = `${instructorName}_QRCode.png`;
+                link.href = img.src;
+                
+                // Append to body, click, and remove
+                document.body.appendChild(link);
+                link.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    
+                    // Reset button
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    button.style.opacity = '1';
+                    
+                    // Show success message
+                    showMessage('✅ QR Code downloaded!');
+                }, 100);
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Failed to download. Please try again.');
+                
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
+                button.style.opacity = '1';
+            }
+            
+            return false; // Prevent any default behavior
+        }
+        
+        // Simple message function
+        function showMessage(text) {
+            // Remove existing message
+            const oldMsg = document.querySelector('.copy-feedback');
+            if (oldMsg) oldMsg.remove();
+            
+            // Create new message
+            const msg = document.createElement('div');
+            msg.className = 'copy-feedback';
+            msg.textContent = text;
+            document.body.appendChild(msg);
+            
+            // Remove after 2 seconds
+            setTimeout(() => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 300);
+            }, 2000);
+        }
+        
+        // Copy URL function
+        document.getElementById('urlBox')?.addEventListener('click', function() {
+            const url = this.textContent.trim();
+            
+            // Copy to clipboard
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showMessage('✅ Link copied!');
+                }).catch(() => {
+                    fallbackCopy(url);
+                });
+            } else {
+                fallbackCopy(url);
+            }
         });
+        
+        // Copy code function
+        document.getElementById('uniqueCode')?.addEventListener('click', function() {
+            const code = this.textContent.trim();
+            fallbackCopy(code);
+            showMessage('✅ Code copied!');
+        });
+        
+        // Fallback copy
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showMessage('✅ Copied!');
+        }
+        
+        // Ensure dashboard link works
+        document.getElementById('dashboardBtn')?.addEventListener('click', function(e) {
+            // Let the link work normally
+            return true;
+        });
+        
+        console.log('Page loaded, download button ready');
     </script>
 </body>
 </html>

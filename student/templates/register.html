@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Student Registration 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
             margin: 0;
@@ -125,14 +126,56 @@
             gap: 1rem;
         }
         
-        @media (max-width: 768px) {
+        /* Only mobile adjustments - preserving all original styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            
             .register-card {
                 padding: 1.5rem;
             }
             
             .row {
                 grid-template-columns: 1fr;
+                gap: 0;
             }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            input, select {
+                padding: 0.7rem 0.9rem;
+            }
+            
+            .btn-register {
+                padding: 0.9rem;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Small phones */
+        @media (max-width: 380px) {
+            .register-card {
+                padding: 1.2rem;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+        
+        /* Help text */
+        .help-text {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
