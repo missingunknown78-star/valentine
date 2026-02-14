@@ -1,0 +1,19 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Word temp files
+~$*.docx
+
+# Environment variables
+.env
+instance/

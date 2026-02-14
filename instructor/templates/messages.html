@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ instructor.name }}'s Inbox 💌</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 25px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .header h1 {
+            color: #ff4d6d;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .instructor-badge {
+            background: {{ instructor.background_color or '#ff4d6d' }};
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .instructor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 2px solid #ffe6f0;
+        }
+        
+        .stat {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff4d6d;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Inbox Section */
+        .inbox-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+        
+        .inbox-title h2 {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .message-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.2rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Message List */
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .message-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid {{ instructor.background_color or '#ff4d6d' }};
+        }
+        
+        .message-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .message-card:active {
+            transform: scale(0.98);
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        
+        .student-info {
+            flex: 1;
+        }
+        
+        .student-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.2rem;
+        }
+        
+        .student-details {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #718096;
+            flex-wrap: wrap;
+        }
+        
+        .student-course {
+            background: #f7fafc;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+        }
+        
+        .student-year {
+            color: #a0aec0;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: #a0aec0;
+            text-align: right;
+            min-width: 70px;
+        }
+        
+        .message-preview {
+            margin-top: 0.5rem;
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .message-preview span {
+            background: {{ instructor.background_color or '#ff4d6d' }};
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .message-preview p {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .empty-state h3 {
+            color: #ff4d6d;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .empty-state p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        /* QR Code Mini */
+        .qr-mini {
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: 20px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .qr-mini p {
+            color: #718096;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .qr-mini img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Loading Animation */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 10px;
+            height: 80px;
+            margin-bottom: 0.8rem;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Pull to refresh */
+        .refresh-indicator {
+            text-align: center;
+            color: white;
+            padding: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        @media (max-width: 380px) {
+            .student-details {
+                flex-direction: column;
+                gap: 0.2rem;
+            }
+            
+            .message-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .message-time {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-top">
+                <h1>💌 Inbox</h1>
+                <span class="instructor-badge">{{ instructor.unique_code }}</span>
+            </div>
+            <div class="instructor-name">{{ instructor.name }}</div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">{{ messages|length }}</div>
+                    <div class="stat-label">Messages</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">{{ messages|selectattr('is_approved', 'equalto', true)|list|length }}</div>
+                    <div class="stat-label">Students</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Inbox Title -->
+        <div class="inbox-title">
+            <h2>Student Messages 💖</h2>
+            <span class="message-count">{{ messages|length }} total</span>
+        </div>
+        
+        <!-- Message List -->
+        {% if messages %}
+            <div class="message-list">
+                {% for message in messages %}
+                    <div class="message-card" onclick="location.href='{{ url_for('instructor.view_student_message', message_id=message.id) }}'">
+                        <div class="message-header">
+                            <div class="student-info">
+                                <div class="student-name">{{ message.student.name }}</div>
+                                <div class="student-details">
+                                    <span class="student-course">{{ message.student.course }}</span>
+                                    <span class="student-year">{{ message.student.year }}</span>
+                                </div>
+                            </div>
+                            <div class="message-time">
+                                {{ message.created_at.strftime('%I:%M %p') }}<br>
+                                <small>{{ message.created_at.strftime('%b %d') }}</small>
+                            </div>
+                        </div>
+                        
+                        <div class="message-preview">
+                            <span>💌</span>
+                            <p>{{ message.message[:60] }}{% if message.message|length > 60 %}...{% endif %}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="empty-state">
+                <div class="empty-icon">💌</div>
+                <h3>No Messages Yet</h3>
+                <p>Share your QR code with students<br>to receive Valentine messages!</p>
+            </div>
+        {% endif %}
+        
+        <!-- QR Code Mini -->
+        {% if instructor.qr_code %}
+            <div class="qr-mini">
+                <p>📱 Your QR Code - Share with students</p>
+                <img src="data:image/png;base64,{{ instructor.qr_code }}" alt="QR Code" onclick="showQRModal()">
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Pull to refresh simulation -->
+    <div class="refresh-indicator" id="refreshIndicator">
+        ↓ Pull down to refresh
+    </div>
+    
+    <script>
+        let startY = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            startY = e.touches[0].pageY;
+        }, false);
+        
+        document.addEventListener('touchmove', function(e) {
+            const currentY = e.touches[0].pageY;
+            const indicator = document.getElementById('refreshIndicator');
+            
+            if (window.scrollY === 0 && currentY > startY + 50) {
+                indicator.style.display = 'block';
+            }
+        }, false);
+        
+        document.addEventListener('touchend', function(e) {
+            const indicator = document.getElementById('refreshIndicator');
+            if (indicator.style.display === 'block') {
+                indicator.innerHTML = '🔄 Refreshing...';
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        }, false);
+        
+        // Simple loading state simulation
+        window.addEventListener('load', function() {
+            // Remove any loading states if needed
+        });
+    </script>
+</body>
+</html>

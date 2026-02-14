@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ instructor.name }}'s Valentine Message 💖</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .valentine-card {
+            background: {{ instructor.background_color or '#ff4d6d' }};
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .heart-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            pointer-events: none;
+            font-size: 10rem;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .heart-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .instructor-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+        
+        .message-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 1;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .message-box p {
+            margin: 0;
+            font-style: italic;
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            opacity: 0.9;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .action-buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-dashboard {
+            background: white;
+            color: {{ instructor.background_color or '#ff4d6d' }};
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-dashboard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .code-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="valentine-card">
+            <div class="heart-background">
+                ❤️ 💖 💘 💝
+            </div>
+            
+            <div class="code-badge">
+                {{ instructor.unique_code }}
+            </div>
+            
+            <div class="heart-icon">💝</div>
+            
+            <h1>Happy Valentine's Day!</h1>
+            
+            <div class="instructor-name">
+                {{ instructor.name }}
+            </div>
+            
+            <div class="message-box">
+                <p>"{{ instructor.message }}"</p>
+            </div>
+            
+            <div class="footer">
+                <p>Made with 💖 for all students</p>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="{{ url_for('admin.dashboard') }}" class="btn-dashboard">
+                    <span>📋</span> Dashboard
+                </a>
+                <a href="{{ url_for('admin.add_message', code=instructor.unique_code) }}" class="btn-dashboard">
+                    <span>✏️</span> Edit
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add floating hearts effect
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['❤️', '💖', '💘', '💝'][Math.floor(Math.random() * 4)];
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = '-20px';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.opacity = '0.3';
+            heart.style.pointerEvents = 'none';
+            heart.style.animation = 'fall ' + (Math.random() * 3 + 2) + 's linear';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 5000);
+        }
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Create hearts every second
+        setInterval(createHeart, 1000);
+    </script>
+</body>
+</html>

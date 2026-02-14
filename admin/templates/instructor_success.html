@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instructor Created Successfully! 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .success-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            color: #ff4d6d;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .instructor-name {
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff8aa1 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        
+        .qr-section {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .qr-section h3 {
+            color: #ff4d6d;
+            margin-bottom: 1rem;
+        }
+        
+        .qr-image {
+            margin: 1rem auto;
+            max-width: 200px;
+        }
+        
+        .qr-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .unique-code {
+            background: #2d3748;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 50px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+        
+        .url-box {
+            background: #edf2f7;
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin: 1rem 0;
+            color: #4a5568;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #48bb78 0%, #68d391 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            border: none;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(72, 187, 120, 0.3);
+        }
+        
+        .btn-dashboard {
+            background: #ff4d6d;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
+        .btn-dashboard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 77, 109, 0.3);
+        }
+        
+        .btn-icon {
+            font-size: 1.2rem;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px dashed #ffe6f0;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-card">
+            <div class="success-icon">✨</div>
+            <h1>Instructor Created!</h1>
+            <p class="subtitle">QR code generated successfully</p>
+            
+            <div class="instructor-name">
+                {{ instructor.name }}
+            </div>
+            
+            <div class="qr-section">
+                <h3>💖 Instructor QR Code</h3>
+                
+                <div class="qr-image" id="qrImage">
+                    <img src="data:image/png;base64,{{ instructor.qr_code }}" alt="QR Code" id="qrCodeImg">
+                </div>
+                
+                <div class="unique-code">
+                    {{ instructor.unique_code }}
+                </div>
+                
+                <div class="url-box">
+                    {{ instructor_url }}
+                </div>
+                
+                <button class="btn-download" id="downloadBtn">
+                    <span class="btn-icon">📥</span>
+                    Download QR Code
+                </button>
+            </div>
+            
+            <hr>
+            
+            <a href="{{ url_for('admin.dashboard') }}" class="btn-dashboard">
+                <span class="btn-icon">📋</span>
+                Go to Dashboard
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            // Get the QR code image
+            const img = document.getElementById('qrCodeImg');
+            
+            // Create a link to download
+            const link = document.createElement('a');
+            link.download = '{{ instructor.name }}_QRCode.png';
+            link.href = img.src;
+            link.click();
+        });
+    </script>
+</body>
+</html>

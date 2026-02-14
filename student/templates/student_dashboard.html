@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            color: #ff4d6d;
+            font-size: 1.8rem;
+        }
+        
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .student-name {
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link.profile {
+            background: #9f7aea;
+        }
+        
+        .nav-link.logout {
+            background: #f56565;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff4d6d;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        /* Instructors Grid */
+        .section-title {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .instructors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .instructor-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .instructor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            color: white;
+            padding: 2rem 1.5rem;
+        }
+        
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .send-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .send-text {
+            color: #ff4d6d;
+            font-weight: 600;
+        }
+        
+        /* Messages Section */
+        .messages-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .messages-section h2 {
+            color: #ff4d6d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .message-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .message-item:last-child {
+            border-bottom: none;
+        }
+        
+        .message-content {
+            flex: 1;
+        }
+        
+        .message-instructor {
+            font-weight: 600;
+            color: #ff4d6d;
+            margin-bottom: 0.3rem;
+        }
+        
+        .message-text {
+            color: #4a5568;
+            margin: 0.5rem 0;
+            font-style: italic;
+            background: #f7fafc;
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+        
+        .message-date {
+            font-size: 0.8rem;
+            color: #a0aec0;
+            text-align: right;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #a0aec0;
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Flash Messages */
+        .flash-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .flash-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .flash-error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .flash-info {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+        
+        .flash-warning {
+            background: #feebc8;
+            color: #744210;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .message-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .instructors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="header">
+            <h1>💖 Student Valentine Dashboard</h1>
+            <div class="student-info">
+                <span class="student-name">Welcome, {{ student.name }}!</span>
+                <div class="nav-links">
+                    <a href="{{ url_for('student.profile') }}" class="nav-link profile">Profile</a>
+                    <a href="{{ url_for('student.logout') }}" class="nav-link logout">Logout</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🏫</div>
+                <div class="stat-value">{{ instructors|length }}</div>
+                <div class="stat-label">Instructors Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💌</div>
+                <div class="stat-value">{{ my_messages|length }}</div>
+                <div class="stat-label">Messages Sent</div>
+            </div>
+        </div>
+        
+        <!-- Instructors Section -->
+        <h2 class="section-title">Select an Instructor to Send Valentine Message 💝</h2>
+        
+        {% if instructors %}
+            <div class="instructors-grid">
+                {% for instr in instructors %}
+                    <div class="instructor-card" onclick="location.href='{{ url_for('student.view_instructor', instructor_id=instr.id) }}'">
+                        <div class="card-header" style="background: {{ instr.background_color or '#ff4d6d' }};">
+                            <h3>{{ instr.name }}</h3>
+                            <p>{{ instr.unique_code }}</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="send-icon">💌</div>
+                            <div class="send-text">Click to Send Message</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">💔</div>
+                <p>No instructors available yet.</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Check back later!</p>
+            </div>
+        {% endif %}
+        
+        <!-- My Messages Section -->
+        <div class="messages-section">
+            <h2>My Valentine Messages 💌</h2>
+            
+            {% if my_messages %}
+                {% for message in my_messages %}
+                    <div class="message-item">
+                        <div class="message-content">
+                            <div class="message-instructor">To: {{ message.instructor.name }}</div>
+                            <div class="message-text">"{{ message.message }}"</div>
+                            <div class="message-date">{{ message.created_at.strftime('%B %d, %Y at %I:%M %p') }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">💌</div>
+                    <p>You haven't sent any Valentine messages yet.</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Click on an instructor above to send your first message!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.transition = 'opacity 0.5s ease';
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.remove();
+                }, 500);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

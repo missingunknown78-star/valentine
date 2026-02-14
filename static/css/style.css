@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    margin-top: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card h1 {
+    font-size: 40px;
+}
+
+.card p {
+    font-size: 22px;
+}
+
+/* Floating hearts animation */
+.hearts::before {
+    content: "❤️ 💖 💕 💘 💝";
+    font-size: 40px;
+    animation: float 3s infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}

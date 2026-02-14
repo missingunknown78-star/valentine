@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Instructor 💖</title>
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='css/add_instructor.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Add New Instructor 💘</h1>
+            <p class="subtitle">Create a QR code for your instructor to add their Valentine message</p>
+        </header>
+
+        <main>
+            <div class="form-card">
+                <form method="POST" class="instructor-form" id="instructorForm">
+                    <div class="form-group">
+                        <label for="name">
+                            <span class="label-icon">👤</span>
+                            Instructor Name
+                        </label>
+                        <input type="text" id="name" name="name" placeholder="e.g., Prof. Valentine" required>
+                        <small class="input-hint">Enter the name of the instructor</small>
+                    </div>
+
+                    <div class="form-group color-group">
+                        <label for="color">
+                            <span class="label-icon">🎨</span>
+                            Theme Color
+                        </label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="color" name="color" value="#ff4d6d">
+                            <span class="color-value">#ff4d6d</span>
+                        </div>
+                        <small class="input-hint">Choose a color theme for their Valentine card</small>
+                    </div>
+
+                    <!-- QR Code Generator Section -->
+                    <div class="qr-generator-section">
+                        <h3>QR Code Generator</h3>
+                        <p class="qr-description">This QR code will take your instructor to a page where they can add their Valentine message</p>
+                        
+                        <div class="qr-preview-container" id="qrPreviewContainer">
+                            <div class="qr-placeholder" id="qrPlaceholder">
+                                <span class="qr-icon">📱</span>
+                                <p>Click generate to create QR code</p>
+                            </div>
+                            <div class="qr-image-container" id="qrImageContainer" style="display: none;">
+                                <img id="qrPreviewImage" src="" alt="QR Code" style="max-width: 200px;">
+                            </div>
+                        </div>
+                        
+                        <div class="qr-controls">
+                            <button type="button" class="btn-generate" id="generateQRBtn">
+                                <span class="btn-icon">🔲</span>
+                                Generate QR Code
+                            </button>
+                        </div>
+
+                        <div class="qr-info" id="qrInfo" style="display: none;">
+                            <p><strong>Instructor's Personal Link:</strong></p>
+                            <div class="url-preview" id="urlPreview"></div>
+                            <p class="success-message">✅ QR Code generated! Share this with your instructor.</p>
+                        </div>
+
+                        <div class="qr-error" id="qrError" style="display: none;"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <span class="btn-icon">💖</span>
+                            Create Instructor
+                        </button>
+                        <a href="{{ url_for('admin.dashboard') }}" class="btn-back">
+                            <span class="btn-icon">←</span>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="preview-section">
+                <h3>Preview</h3>
+                <div class="info-card">
+                    <div class="info-icon">ℹ️</div>
+                    <h4>How it works:</h4>
+                    <ol class="steps-list">
+                        <li>Add instructor name and choose theme color</li>
+                        <li>Generate QR code and create instructor</li>
+                        <li>Share the QR code with your instructor</li>
+                        <li>Instructor scans QR code to add their Valentine message</li>
+                        <li>Message appears in dashboard once added</li>
+                    </ol>
+                </div>
+                
+                <div class="preview-card" id="previewCard" style="background-color: #ff4d6d;">
+                    <h4 id="previewName">Instructor Name</h4>
+                    <p class="preview-note">✨ Waiting for message ✨</p>
+                    <small>Scan QR code to add message</small>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made with 💖 for Valentine's Day</p>
+        </footer>
+    </div>
+
+    <script>
+        // Elements
+        const nameInput = document.getElementById('name');
+        const colorInput = document.getElementById('color');
+        const previewCard = document.getElementById('previewCard');
+        const previewName = document.getElementById('previewName');
+        const colorValue = document.querySelector('.color-value');
+        
+        // QR Code Elements
+        const generateBtn = document.getElementById('generateQRBtn');
+        const qrPlaceholder = document.getElementById('qrPlaceholder');
+        const qrImageContainer = document.getElementById('qrImageContainer');
+        const qrPreviewImage = document.getElementById('qrPreviewImage');
+        const qrInfo = document.getElementById('qrInfo');
+        const urlPreview = document.getElementById('urlPreview');
+        const qrError = document.getElementById('qrError');
+        
+        // Store generated QR data
+        let generatedQRData = null;
+
+        // Live preview updates
+        nameInput.addEventListener('input', function() {
+            previewName.textContent = this.value || 'Instructor Name';
+        });
+
+        colorInput.addEventListener('input', function() {
+            previewCard.style.backgroundColor = this.value;
+            colorValue.textContent = this.value;
+        });
+
+        // Generate QR Code
+        generateBtn.addEventListener('click', function() {
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert('Please enter an instructor name first!');
+                nameInput.focus();
+                return;
+            }
+
+            qrError.style.display = 'none';
+            
+            // Show loading state
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span class="btn-icon">⏳</span> Generating...';
+
+            const baseUrl = window.location.origin;
+            const generateUrl = baseUrl + '/valentine/admin/generate-qr-preview';
+
+            fetch(generateUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    qrPreviewImage.src = 'data:image/png;base64,' + data.qr_code;
+                    qrPlaceholder.style.display = 'none';
+                    qrImageContainer.style.display = 'block';
+                    
+                    urlPreview.textContent = data.preview_url;
+                    qrInfo.style.display = 'block';
+                    
+                    generatedQRData = data;
+                    
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '<span class="btn-icon">✅</span> Regenerate QR Code';
+                } else {
+                    throw new Error(data.error || 'Failed to generate QR code');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                qrError.textContent = 'Error: ' + error.message;
+                qrError.style.display = 'block';
+                
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<span class="btn-icon">🔲</span> Generate QR Code';
+                
+                qrPlaceholder.style.display = 'block';
+                qrImageContainer.style.display = 'none';
+                qrInfo.style.display = 'none';
+            });
+        });
+
+        // Form submission
+        document.getElementById('instructorForm').addEventListener('submit', function(e) {
+            if (!generatedQRData) {
+                e.preventDefault();
+                alert('Please generate a QR code first!');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="btn-icon">⏳</span> Creating...';
+        });
+    </script>
+</body>
+</html>
