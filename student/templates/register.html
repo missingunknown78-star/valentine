@@ -197,11 +197,7 @@
             <h1>💖 Student Registration</h1>
             <p class="subtitle">Join the Valentine's Day celebration!</p>
             
-            <!-- Verification Note - Added to explain ID-only check -->
-            <div class="verification-note">
-                <strong>📋 Note:</strong> Only your Student ID will be verified against official records. You can use any name you prefer for your Valentine's messages.
-            </div>
-            
+        
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
