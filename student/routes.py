@@ -34,19 +34,11 @@ def register():
             flash('Passwords do not match!', 'error')
             return render_template('register.html')
         
-        # Check if student exists in OfficialStudent database
+        # Check if student exists in OfficialStudent database (ID only, no name check)
         official_student = OfficialStudent.query.filter_by(student_id=student_id).first()
         
         if not official_student:
             flash('Student ID not found in official records! Please contact the administrator.', 'error')
-            return render_template('register.html')
-        
-        # Check if the name matches the official record (case-insensitive)
-        official_full_name = f"{official_student.first_name} {official_student.last_name}".lower()
-        input_name = name.lower()
-        
-        if input_name != official_full_name:
-            flash('Name does not match our official records! Please use your registered name.', 'error')
             return render_template('register.html')
         
         # Check if student already registered in the system
@@ -58,10 +50,10 @@ def register():
             flash('Student ID or Email already registered! Please login.', 'error')
             return render_template('register.html')
         
-        # Create new student
+        # Create new student (using the name they provided, not from official records)
         new_student = Student(
             student_id=student_id,
-            name=name,
+            name=name,  # Use the name from the form
             course=course,
             year=year,
             email=email
@@ -75,6 +67,7 @@ def register():
         return redirect(url_for('student.login'))
     
     return render_template('register.html')
+
 
 
 @student_bp.route('/login', methods=['GET', 'POST'])
