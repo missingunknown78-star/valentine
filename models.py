@@ -1,7 +1,14 @@
 from extensions import db
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+
+# Manila timezone (UTC+8)
+MANILA_TZ = timezone(timedelta(hours=8))
+
+def manila_now():
+    """Return current datetime in Manila timezone"""
+    return datetime.now(MANILA_TZ).replace(tzinfo=None)
 
 class Instructor(db.Model):
     __tablename__ = "instructors"
@@ -13,7 +20,7 @@ class Instructor(db.Model):
     background_color = db.Column(db.String(50))
     qr_code = db.Column(db.Text, nullable=True)
     is_message_added = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=manila_now)
     
     # Relationship with student messages
     student_messages = db.relationship('StudentMessage', backref='instructor', lazy=True, cascade='all, delete-orphan')
@@ -29,7 +36,7 @@ class Student(UserMixin, db.Model):
     year = db.Column(db.String(20), nullable=False)  # 1st Year, 2nd Year, etc.
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=manila_now)
     
     # Relationship with messages
     messages = db.relationship('StudentMessage', backref='student', lazy=True, cascade='all, delete-orphan')
@@ -49,10 +56,8 @@ class StudentMessage(db.Model):
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'), nullable=False)
     message = db.Column(db.Text, nullable=False)
     is_approved = db.Column(db.Boolean, default=False)  # Admin can approve messages
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=manila_now)
 
-
-    # Add this to your models.py file
 
 class OfficialStudent(db.Model):
     __tablename__ = 'official_students'
@@ -61,7 +66,7 @@ class OfficialStudent(db.Model):
     student_id = db.Column(db.String(50), unique=True, nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=manila_now)
     
     def __repr__(self):
         return f'<OfficialStudent {self.student_id}: {self.first_name} {self.last_name}>'

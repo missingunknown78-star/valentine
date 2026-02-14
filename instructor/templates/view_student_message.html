@@ -19,96 +19,50 @@
             overflow-x: hidden;
         }
         
-        /* Background Floating Particles - Behind everything */
-        .particle-bg {
+        /* Particle Styles - Only Bottom to Top */
+        .particle, .particle-fg {
             position: fixed;
+            bottom: -50px;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.4;
-            animation: wind-float-bg linear infinite;
             filter: drop-shadow(0 0 3px rgba(255,255,255,0.2));
+            will-change: transform;
+            animation: float-up linear infinite;
         }
         
-        @keyframes wind-float-bg {
-            0% {
-                transform: translateX(-10vw) translateY(100vh) rotate(0deg);
-                opacity: 0.4;
-            }
-            25% {
-                transform: translateX(20vw) translateY(70vh) rotate(90deg);
-                opacity: 0.3;
-            }
-            50% {
-                transform: translateX(40vw) translateY(40vh) rotate(180deg);
-                opacity: 0.2;
-            }
-            75% {
-                transform: translateX(60vw) translateY(20vh) rotate(270deg);
-                opacity: 0.1;
-            }
-            100% {
-                transform: translateX(80vw) translateY(-20vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        /* Foreground Floating Particles - In front of containers */
         .particle-fg {
-            position: fixed;
-            pointer-events: none;
             z-index: 20;
-            opacity: 0.7;
-            animation: wind-float-fg linear infinite;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
         }
         
-        @keyframes wind-float-fg {
+        /* Single Direction - Bottom to Top */
+        @keyframes float-up {
             0% {
-                transform: translateX(-5vw) translateY(100vh) rotate(0deg);
-                opacity: 0.7;
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
             }
-            25% {
-                transform: translateX(30vw) translateY(70vh) rotate(120deg);
-                opacity: 0.8;
+            10% {
+                opacity: 0.6;
             }
-            50% {
-                transform: translateX(50vw) translateY(40vh) rotate(240deg);
-                opacity: 0.7;
-            }
-            75% {
-                transform: translateX(70vw) translateY(20vh) rotate(300deg);
-                opacity: 0.5;
+            90% {
+                opacity: 0.6;
             }
             100% {
-                transform: translateX(90vw) translateY(-20vh) rotate(360deg);
+                transform: translateY(-110vh) translateX(10vw) rotate(360deg);
                 opacity: 0;
             }
         }
         
-        .heart-white {
-            color: #ffffff;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-        }
-        
-        .heart-pink {
-            color: #ffb6c1;
-            text-shadow: 0 0 8px rgba(255, 182, 193, 0.8);
-        }
-        
-        .heart-yellow {
-            color: #fffacd;
-            text-shadow: 0 0 8px rgba(255, 250, 205, 0.8);
-        }
-        
-        .flower {
-            color: #ffe4e1;
-            text-shadow: 0 0 8px rgba(255, 228, 225, 0.8);
-        }
-        
-        .flower-pink {
-            color: #ffdab9;
-            text-shadow: 0 0 8px rgba(255, 218, 185, 0.8);
-        }
+        /* Color classes */
+        .heart-pink { color: #ffb6c1; text-shadow: 0 0 8px rgba(255,182,193,0.8); }
+        .heart-red { color: #ff4d6d; text-shadow: 0 0 8px rgba(255,77,109,0.8); }
+        .heart-yellow { color: #fffacd; text-shadow: 0 0 8px rgba(255,250,205,0.8); }
+        .heart-purple { color: #d8b4ff; text-shadow: 0 0 8px rgba(216,180,255,0.8); }
+        .heart-orange { color: #ffb347; text-shadow: 0 0 8px rgba(255,179,71,0.8); }
+        .heart-white { color: #ffffff; text-shadow: 0 0 8px rgba(255,255,255,0.8); }
+        .flower-pink { color: #ffdab9; text-shadow: 0 0 8px rgba(255,218,185,0.8); }
+        .sparkle { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,1); }
+        .star { color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.8); }
         
         .container {
             max-width: 600px;
@@ -131,7 +85,7 @@
             overflow: hidden;
         }
         
-        /* Student Header - Glass effect */
+        /* Student Header */
         .student-header {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -191,7 +145,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        /* Message Content - Glass on glass */
+        /* Message Content */
         .message-content {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(8px);
@@ -256,38 +210,7 @@
             text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
         
-        /* Reply Button - Solid as requested */
-        .reply-btn {
-            background: linear-gradient(135deg, {{ instructor.background_color or '#ff4d6d' }} 0%, #ff8aa1 100%);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            margin-top: 0.8rem;
-            position: relative;
-            z-index: 12;
-        }
-        
-        .reply-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-        }
-        
-        .reply-btn:active {
-            transform: translateY(0);
-        }
-        
-        /* Info Card - Glass */
+        /* Info Card */
         .info-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -307,11 +230,11 @@
             opacity: 0.9;
         }
         
-        /* Confetti */
+        /* Confetti - Minimal */
         .confetti {
             position: fixed;
-            width: 8px;
-            height: 8px;
+            width: 4px;
+            height: 4px;
             background: #ff4d6d;
             position: absolute;
             pointer-events: none;
@@ -322,66 +245,6 @@
         @keyframes confettiFall {
             0% { transform: translateY(-100vh) rotate(0deg); }
             100% { transform: translateY(100vh) rotate(360deg); }
-        }
-        
-        /* Reply Modal */
-        #replyModal {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-radius: 24px 24px 0 0;
-            padding: 1.5rem;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
-            animation: slideUp 0.3s ease;
-            z-index: 1000;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        #replyModal h3 {
-            color: #ff4d6d;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        
-        #replyModal textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ffe6f0;
-            border-radius: 10px;
-            min-height: 80px;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-        
-        #replyModal button:first-of-type {
-            background: linear-gradient(135deg, #ff4d6d 0%, #ff8aa1 100%);
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            border-radius: 50px;
-            width: 100%;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-        
-        #replyModal button:last-of-type {
-            background: none;
-            border: none;
-            color: #999;
-            width: 100%;
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
         }
         
         @media (max-width: 380px) {
@@ -403,7 +266,6 @@
             }
         }
         
-        /* Desktop-like adjustments */
         @media (min-width: 768px) {
             body {
                 padding: 30px;
@@ -420,10 +282,10 @@
     </style>
 </head>
 <body>
-    <!-- Background Floating Particles (Behind containers) -->
+    <!-- Background Floating Particles -->
     <div id="particles-bg"></div>
     
-    <!-- Foreground Floating Particles (In front of containers) -->
+    <!-- Foreground Floating Particles -->
     <div id="particles-fg"></div>
     
     <div class="container">        
@@ -452,125 +314,141 @@
                     <div class="heart">💖</div>
                 </div>
             </div>
-            
-            <!-- Solid Reply Button (unchanged) -->
-            <button class="reply-btn" onclick="showReply()">
-                <span>💌</span>
-                Send Reply
-            </button>
         </div>
         
         <!-- Glass Info Card -->
         <div class="info-card">
-            <p>✨ This message was sent with love from one of your students</p>
+            <p>✨ This greeeting was sent with love from one of CTU-Moalboal students</p>
         </div>
     </div>
     
-    <!-- Reply Modal (hidden by default) -->
-    <div id="replyModal" style="display: none;">
-        <h3>Reply to {{ message.student.name }}</h3>
-        <textarea placeholder="Write your reply..."></textarea>
-        <button onclick="closeReply()">Send Reply</button>
-        <button onclick="closeReply()">Cancel</button>
-    </div>
-    
     <script>
-        // Floating Particles Generator
+        // Floating Particles Generator - Only Bottom to Top, Minimal Count
         function createParticles(containerId, isForeground = false) {
             const particlesContainer = document.getElementById(containerId);
             
-            // Different colors and symbols
+            // Simplified symbols - just hearts, flowers, dogs, bees
             const symbols = [
-                { char: '❤️', class: 'heart-white' },
+                // Hearts
+                { char: '❤️', class: 'heart-red' },
                 { char: '💖', class: 'heart-pink' },
-                { char: '💕', class: 'heart-yellow' },
-                { char: '💗', class: 'heart-white' },
-                { char: '🌸', class: 'flower' },
+                { char: '💗', class: 'heart-pink' },
+                { char: '💕', class: 'heart-pink' },
+                { char: '💘', class: 'heart-red' },
+                { char: '💝', class: 'heart-red' },
+                
+                // Flowers
+                { char: '🌸', class: 'flower-pink' },
                 { char: '🌺', class: 'flower-pink' },
-                { char: '🌷', class: 'flower' },
+                { char: '🌷', class: 'flower-pink' },
                 { char: '🌹', class: 'flower-pink' },
-                { char: '🌼', class: 'heart-yellow' },
-                { char: '🌻', class: 'heart-yellow' }
+                
+                // Stars & Sparkles
+                { char: '✨', class: 'sparkle' },
+                { char: '⭐', class: 'star' },
+                
+                // Dogs and Bees
+                { char: '🐶', class: 'heart-orange' },
+                { char: '🐕', class: 'heart-orange' },
+                { char: '🐝', class: 'heart-yellow' },
+                
+                // Love symbols
+                { char: '💐', class: 'flower-pink' },
+                { char: '🎀', class: 'heart-pink' }
             ];
             
-            const particleCount = isForeground ? 15 : 20; // Fewer foreground particles for subtlety
+            // REDUCED particle count - much less!
+            const particleCount = isForeground ? 15 : 20; // Was 40:60, now 15:20
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 const symbol = symbols[Math.floor(Math.random() * symbols.length)];
                 
-                particle.className = isForeground ? 'particle-fg ' + symbol.class : 'particle-bg ' + symbol.class;
+                particle.className = (isForeground ? 'particle-fg ' : 'particle ') + symbol.class;
                 particle.innerHTML = symbol.char;
                 
-                // Random properties for natural wind flow
+                // Smaller sizes
+                const size = isForeground ? 10 + Math.random() * 14 : 8 + Math.random() * 12; // Even smaller
                 const left = Math.random() * 100;
-                const size = isForeground ? 14 + Math.random() * 25 : 10 + Math.random() * 20;
-                const duration = isForeground ? 15 + Math.random() * 20 : 20 + Math.random() * 25;
-                const delay = Math.random() * -30;
-                const rotation = Math.random() * 360;
+                const duration = 10 + Math.random() * 15; // 10-25 seconds
+                const delay = Math.random() * -15;
                 
                 particle.style.left = left + '%';
                 particle.style.fontSize = size + 'px';
                 particle.style.animationDuration = duration + 's';
                 particle.style.animationDelay = delay + 's';
-                particle.style.opacity = isForeground ? 0.5 + Math.random() * 0.3 : 0.2 + Math.random() * 0.3;
-                particle.style.transform = `rotate(${rotation}deg)`;
-                
-                // Random starting Y position for variety
-                const startY = Math.random() * 100;
-                particle.style.top = startY + '%';
+                particle.style.opacity = isForeground ? 0.3 + Math.random() * 0.3 : 0.2 + Math.random() * 0.3;
                 
                 particlesContainer.appendChild(particle);
             }
         }
         
-        function showReply() {
-            document.getElementById('replyModal').style.display = 'block';
-        }
-        
-        function closeReply() {
-            document.getElementById('replyModal').style.display = 'none';
-        }
-        
-        // Add confetti effect
+        // Add minimal confetti effect
         function createConfetti() {
-            for (let i = 0; i < 30; i++) {
+            // Reduced confetti count
+            for (let i = 0; i < 15; i++) { // Was 30, now 15
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
                     confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
-                    confetti.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    confetti.style.background = `hsl(${Math.random() * 360}, 80%, 70%)`;
+                    confetti.style.width = Math.random() * 6 + 2 + 'px';
+                    confetti.style.height = Math.random() * 6 + 2 + 'px';
+                    confetti.style.opacity = Math.random() * 0.6 + 0.2;
                     document.body.appendChild(confetti);
                     
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 50);
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 80);
             }
         }
         
         // Initialize on load
         window.addEventListener('load', function() {
-            // Create background particles
+            // Clear any existing particles
+            document.getElementById('particles-bg').innerHTML = '';
+            document.getElementById('particles-fg').innerHTML = '';
+            
+            // Create minimal background particles (only bottom to top)
             createParticles('particles-bg', false);
             
-            // Create foreground particles (in front of containers)
+            // Create minimal foreground particles (only bottom to top)
             createParticles('particles-fg', true);
             
+            // Create minimal confetti
             createConfetti();
             
-            // Create new particles periodically
+            // Occasionally add a new particle to keep it fresh but minimal
             setInterval(() => {
-                const particlesBg = document.getElementById('particles-bg');
-                const particlesFg = document.getElementById('particles-fg');
+                const bgContainer = document.getElementById('particles-bg');
+                const fgContainer = document.getElementById('particles-fg');
                 
-                if (particlesBg.children.length < 20) {
-                    createParticles('particles-bg', false);
+                // Only add if under threshold
+                if (bgContainer.children.length < 18) { // Keep under 18
+                    const particle = document.createElement('div');
+                    const symbols = ['❤️', '💖', '🌸', '🐝', '✨'];
+                    const colors = ['heart-red', 'heart-pink', 'flower-pink', 'heart-yellow', 'sparkle'];
+                    const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    particle.className = 'particle ' + randomColor;
+                    particle.innerHTML = randomSymbol;
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.fontSize = (8 + Math.random() * 10) + 'px';
+                    particle.style.animationDuration = (10 + Math.random() * 12) + 's';
+                    particle.style.animationDelay = '0s';
+                    particle.style.opacity = 0.2 + Math.random() * 0.3;
+                    bgContainer.appendChild(particle);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 22000);
                 }
-                
-                if (particlesFg.children.length < 15) {
-                    createParticles('particles-fg', true);
-                }
-            }, 8000);
+            }, 8000); // Add new particle every 8 seconds
         });
     </script>
 </body>
